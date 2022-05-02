@@ -1,0 +1,21 @@
+import React, { createContext, useReducer } from "react";
+import contactsInitialStates from "./initialStates/contactsInitialStates";
+import authInitialState from "./initialStates/authState";
+
+import auth from "./reducers/auth";
+import contacts from "./reducers/contacts";
+
+export const GlobalContext = createContext({});
+
+const GlobelProvider = ({ children }) => {
+  const [authState, authDispatch] = useReducer(auth, authInitialState);
+  const [contactsState, contactsDispatch] = useReducer(contacts, contactsInitialStates);
+
+  return (
+    <GlobalContext.Provider value={{ authState, contactsState, authDispatch, contactsDispatch }}>
+      {children}
+    </GlobalContext.Provider>
+  );
+};
+
+export default GlobelProvider;
