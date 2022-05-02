@@ -8,7 +8,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { LOGIN } from "../../constants/routeName";
 
-const RegisterComponent = () => {
+const RegisterComponent = ({ onSubmit, onChange, form, errors }) => {
   const { navigate } = useNavigation();
 
   return (
@@ -27,23 +27,41 @@ const RegisterComponent = () => {
             label="Username"
             iconPosition="right"
             placeholder="Enter Username"
-            // error={"This field is required"}
+            onChangeText={(value) => {
+              onChange({ name: "userName", value });
+            }}
+            error={errors.userName}
           />
 
           <Input
             label="First Name"
             iconPosition="right"
             placeholder="Enter First Name"
-            // error={"This field is required"}
+            onChangeText={(value) => {
+              onChange({ name: "firstName", value });
+            }}
+            error={errors.firstName}
           />
 
           <Input
             label="Last name"
             iconPosition="right"
             placeholder="Enter Last Name"
+            error={errors.lastName}
+            onChangeText={(value) => {
+              onChange({ name: "lastName", value });
+            }}
           />
 
-          <Input label="Email" iconPosition="right" placeholder="Enter Email" />
+          <Input
+            label="Email"
+            iconPosition="right"
+            placeholder="Enter Email"
+            error={errors.email}
+            onChangeText={(value) => {
+              onChange({ name: "email", value });
+            }}
+          />
 
           <Input
             label="Password"
@@ -51,9 +69,13 @@ const RegisterComponent = () => {
             secureTextEntry
             icon={<Text>Show</Text>}
             iconPosition="right"
+            error={errors.password}
+            onChangeText={(value) => {
+              onChange({ name: "password", value });
+            }}
           />
 
-          <CustomButton primary title="Submit" />
+          <CustomButton onPress={onSubmit} primary title="Submit" />
         </View>
 
         <View style={styles.createSection}>
