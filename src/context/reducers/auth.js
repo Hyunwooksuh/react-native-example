@@ -1,6 +1,7 @@
 const auth = (state, { type, payload }) => {
   switch (type) {
-    case "LOGIN":
+    case REGISTER_LOADING:
+      console.log(state, type, payload);
       return {};
     default:
       return state;

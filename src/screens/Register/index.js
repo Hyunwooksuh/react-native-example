@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import RegisterComponent from "../../components/Signup";
+import register from "../../context/actions/auth/register";
+import { GlobalContext } from "../../context/Provider";
 
 const Register = () => {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
+  const { authDispatch } = useContext(GlobalContext);
 
   const onChange = ({ name, value }) => {
     setForm({ ...form, [name]: value });
@@ -60,6 +63,14 @@ const Register = () => {
       setErrors((prev) => {
         return { ...prev, password: "please add a password" };
       });
+    }
+
+    if (
+      Object.values(form).length === 5 &&
+      Object.values(form).every((item) => item.trim().length > 0) &&
+      Object.values(errors).every((item) => !item)
+    ) {
+      register(form)(authDispatch);
     }
   };
 
