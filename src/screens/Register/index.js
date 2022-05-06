@@ -1,12 +1,33 @@
-import React, { useState, useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import RegisterComponent from "../../components/Signup";
-import register from "../../context/actions/auth/register";
+import { LOGIN } from "../../constants/routeName";
+import register, { clearAuthState } from "../../context/actions/auth/register";
 import { GlobalContext } from "../../context/Provider";
 
 const Register = () => {
+  const { navigate } = useNavigation();
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
-  const { authDispatch } = useContext(GlobalContext);
+  const {
+    authDispatch,
+    authState: { error, loading, data },
+  } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (data) {
+      navigate(LOGIN);
+    }
+  }, [data]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (data || error) {
+        clearAuthState()(authDispatch);
+      }
+    }, [data, error])
+  );
 
   const onChange = ({ name, value }) => {
     setForm({ ...form, [name]: value });
@@ -80,6 +101,8 @@ const Register = () => {
       onChange={onChange}
       form={form}
       errors={errors}
+      error={error}
+      loading={loading}
     />
   );
 };
