@@ -32,8 +32,6 @@ const CustomButton = ({
     }
   };
 
-  console.log(loading);
-
   return (
     <TouchableOpacity
       disabled={disabled}

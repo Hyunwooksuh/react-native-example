@@ -7,6 +7,7 @@ import styles from "./styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { REGISTER } from "../../constants/routeName";
+import Message from "../common/Message";
 
 const LoginComponent = () => {
   const { navigate } = useNavigation();
@@ -22,6 +23,18 @@ const LoginComponent = () => {
         <Text style={styles.title}>Welcome to React Native</Text>
         <Text style={styles.subTitle}>Please login here</Text>
 
+        <Message
+          retry
+          retryFn={() => {
+            console.log("12314", 222);
+          }}
+          primary
+          onDismiss={() => {}}
+          message="invalid credentials"
+        />
+        <Message onDismiss={() => {}} danger message="invalid credentials" />
+        <Message onDismiss={() => {}} info message="invalid credentials" />
+        <Message onDismiss={() => {}} success message="invalid credentials" />
         <View style={styles.form}>
           <Input
             label="Username"

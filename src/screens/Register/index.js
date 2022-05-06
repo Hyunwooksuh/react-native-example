@@ -4,6 +4,7 @@ import React, { useState, useContext, useCallback, useEffect } from "react";
 import RegisterComponent from "../../components/Signup";
 import { LOGIN } from "../../constants/routeName";
 import register, { clearAuthState } from "../../context/actions/auth/register";
+import authState from "../../context/initialStates/authState";
 import { GlobalContext } from "../../context/Provider";
 
 const Register = () => {
@@ -15,8 +16,10 @@ const Register = () => {
     authState: { error, loading, data },
   } = useContext(GlobalContext);
 
+  /* useFocus Hook */
   useEffect(() => {
-    if (data) {
+    console.log(data);
+    if (data && Object.keys(data).length > 0) {
       navigate(LOGIN);
     }
   }, [data]);

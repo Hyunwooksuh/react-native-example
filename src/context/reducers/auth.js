@@ -6,7 +6,6 @@ import {
 } from "../../constants/actionTypes/index";
 
 const auth = (state, { type, payload }) => {
-  console.log(state, payload, type);
   switch (type) {
     case REGISTER_LOADING:
       return {
