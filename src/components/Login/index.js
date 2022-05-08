@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { REGISTER } from "../../constants/routeName";
 import Message from "../common/Message";
 
-const LoginComponent = () => {
+const LoginComponent = ({ error, onChange, onSubmit }) => {
   const { navigate } = useNavigation();
 
   return (
@@ -23,24 +23,22 @@ const LoginComponent = () => {
         <Text style={styles.title}>Welcome to React Native</Text>
         <Text style={styles.subTitle}>Please login here</Text>
 
-        <Message
-          retry
-          retryFn={() => {
-            console.log("12314", 222);
-          }}
-          primary
-          onDismiss={() => {}}
-          message="invalid credentials"
-        />
-        <Message onDismiss={() => {}} danger message="invalid credentials" />
-        <Message onDismiss={() => {}} info message="invalid credentials" />
-        <Message onDismiss={() => {}} success message="invalid credentials" />
         <View style={styles.form}>
+          {error && !error.error && (
+            <Message
+              onDismiss={() => {}}
+              danger
+              message="invalid credentials"
+            />
+          )}
+          {error?.error && <Message danger onDismiss message={error?.error} />}
           <Input
             label="Username"
             iconPosition="right"
             placeholder="Enter Username"
-            // error={"This field is required"}
+            onChangeText={(value) => {
+              onChange({ name: "userName", value });
+            }}
           />
 
           <Input
@@ -49,6 +47,9 @@ const LoginComponent = () => {
             secureTextEntry
             icon={<Text>Show</Text>}
             iconPosition="right"
+            onChangeText={(value) => {
+              onChange({ name: "password", value });
+            }}
           />
 
           <CustomButton primary title="Submit" />

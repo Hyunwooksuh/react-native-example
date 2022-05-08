@@ -1,10 +1,10 @@
-import axiosInstance from "../../../helpers/axiosInterceptor";
 import {
   REGISTER_FAIL,
-  REGISTER_SUCCESS,
   REGISTER_LOADING,
+  REGISTER_SUCCESS,
   CLEAR_AUTH_STATE,
-} from "../../../constants/actionTypes/index";
+} from "../../../constants/actionTypes";
+import axiosInstance from "../../../helpers/axiosInterceptor";
 
 export const clearAuthState = () => (dispatch) => {
   dispatch({
@@ -19,11 +19,11 @@ export default ({
     firstName: first_name,
     lastName: last_name,
   }) =>
-  (dispatch) => {
+  (dispatch) =>
+  (onSuccess) => {
     dispatch({
       type: REGISTER_LOADING,
     });
-
     axiosInstance
       .post("auth/register", {
         email,
@@ -37,13 +37,15 @@ export default ({
           type: REGISTER_SUCCESS,
           payload: res.data,
         });
+
+        onSuccess(res.data);
       })
       .catch((err) => {
         dispatch({
           type: REGISTER_FAIL,
-          payload: err.response
+          payload: err.response.data
             ? err.response.data
-            : { error: "Something went wrong, try again!" },
+            : { error: "Something went wrong, try agin" },
         });
       });
   };
